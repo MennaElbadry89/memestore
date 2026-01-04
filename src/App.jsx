@@ -31,7 +31,7 @@ const CartFlying = lazy(()=> import('./Pages/Cart/CartFlying'))
 const Checkout = lazy(()=> import('./Pages/Cart/Checkout'))
 const Orders = lazy(()=> import('./Pages/Orders/Orders'))
 const Create = lazy(()=> import('./Pages/Auth/Create/Create'))
-const SignIn = lazy(()=> import('./pages/Auth/SignIn/SignIn.jsx'))
+const Sign = lazy(()=> import('./Pages/Auth/Sign/Sign.jsx'))
 const Profile = lazy(()=> import('./Pages/Profile/Profile'))
 const Messages = lazy(()=> import('./Pages/Messages/Messages'))
 const AdminLayout = lazy(()=> import('./Layout/AdminLayout'))
@@ -92,7 +92,7 @@ const router = createBrowserRouter([
       {path: 'register' , element :
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Create/></Suspense> },
       {path: 'login' , element :
-                <Suspense fallback={<LottiHandeler status= 'page' />}> <SignIn/></Suspense> },
+                <Suspense fallback={<LottiHandeler status= 'page' />}> <Sign/></Suspense> },
       {path: 'profile' , element :
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Profile/></Suspense> },
      {path: 'messages' , element :

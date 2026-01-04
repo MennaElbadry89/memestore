@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function Sign() {
       const navigate = useNavigate();
   
   const [email, setEmail] = useState("");
