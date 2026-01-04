@@ -34,7 +34,7 @@ const Create = lazy(()=> import('./Pages/Auth/Create/Create'))
 const Sign = lazy(()=> import('./Pages/Auth/Sign/Sign.jsx'))
 const Profile = lazy(()=> import('./Pages/Profile/Profile'))
 const Messages = lazy(()=> import('./Pages/Messages/Messages'))
-const AdminLayout = lazy(()=> import('./Layout/AdminLayout'))
+// const AdminLayout = lazy(()=> import('./Layout/AdminLayout'))
 
 
 
@@ -97,8 +97,8 @@ const router = createBrowserRouter([
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Profile/></Suspense> },
      {path: 'messages' , element :
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Messages/></Suspense> },
-     {path: 'adminLayout' , element :
-                <Suspense fallback={<LottiHandeler status= 'page' />}> <AdminLayout/></Suspense> }
+    //  {path: 'adminLayout' , element :
+    //             <Suspense fallback={<LottiHandeler status= 'page' />}> <AdminLayout/></Suspense> }
     ],
     errorElement : <LottiHandeler status= 'Err' />
   }
