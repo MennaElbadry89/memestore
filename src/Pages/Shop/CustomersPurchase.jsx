@@ -30,7 +30,7 @@ export default function CustomersPurchase() {
     
     if (loading) return <LottiHandeler status={'page'}/>;
   return (
-    <div className="bg-white" >
+    <div className="bg-white" id="customers">
       <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="mb-10 text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
 

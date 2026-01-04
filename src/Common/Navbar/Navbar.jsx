@@ -20,13 +20,10 @@ import {
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 import { logoutUser } from "../../features/auth/authSlice"; 
-
 import CartFlying from "../../Pages/Cart/CartFlying"
 // import { removeFromCart, clearCart,  increaseQuantity, decreaseQuantity,  } from "../../features/cart/cartSlice";
 
 import { toast } from "react-toastify";
-
-
 
 const navigation = {
   categories: [
@@ -37,7 +34,7 @@ const navigation = {
         {
           name: 'New Arrivals',
           href: '#new',
-          imageSrc: 'image/14.jpg',
+          imageSrc: 'image/17.jpg',
           imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
         },
         {
@@ -46,7 +43,12 @@ const navigation = {
           imageSrc: 'image/26.jpg',
           imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
         },
-      ],
+        {
+          name: 'Customers purchased',
+          href: '#customers',
+          imageSrc: 'image/5.jpg',
+          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+        },      ],
       sections: [
         {
           id: 'Collections',
@@ -58,16 +60,16 @@ const navigation = {
             { name: 'Browse All', href: '/shop' },
           ],
         },
-        {
-          id: 'brands',
-          name: 'Brands',
-          items: [
-            { name: 'Re-Arranged', href: '#' },
-            { name: 'Counterfeit', href: '#' },
-            { name: 'Full Nelson', href: '#' },
-            { name: 'My Way', href: '#' },
-          ],
-        },
+        // {
+        //   id: 'brands',
+        //   name: 'Brands',
+        //   items: [
+        //     { name: 'Re-Arranged', href: '#' },
+        //     { name: 'Counterfeit', href: '#' },
+        //     { name: 'Full Nelson', href: '#' },
+        //     { name: 'My Way', href: '#' },
+        //   ],
+        // },
       ],
     },
    
@@ -249,7 +251,7 @@ export default function Navbar() {
                         <div className="relative bg-white">
                           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                             <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
-                              <div className="col-start-2 grid grid-cols-2 gap-x-8">
+                              <div className="col-start-2 grid grid-cols-3 gap-x-8">
                                 {category.featured.map((item) => (
                                   <div key={item.name} className="group relative text-base sm:text-sm">
                                     <img alt={item.imageAlt} src={item.imageSrc}
