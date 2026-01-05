@@ -173,7 +173,7 @@ export default function Deals() {
               </div>
                 
               </div>
-                <div className='mt-8 hidden items-center gap-2 rounded-md p-1 group-hover:flex'>
+                <div className='mt-8 flex items-center gap-2 rounded-md p-1 opacity-100 md:opacity-0 md:group-hover:opacity-100'>
                   <button onClick={() => handleAddToCart(product)}
                    className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
                     Add<BsCart4/>

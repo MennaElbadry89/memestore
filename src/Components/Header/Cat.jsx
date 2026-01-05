@@ -20,12 +20,12 @@ export default function Cat(){
   return(
     <div className='mx-10 p-10'>
 
-    <motion.div className="z-20 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4" variants={container} initial="hidden" animate="show">
+    <motion.div className="z-20 grid grid-cols-1 gap-2 md:grid-cols-2 md:p-5 lg:grid-cols-4" variants={container} initial="hidden" animate="show">
 
      <motion.div 
       variants={Item}
-      className='w-full rounded border border-blue-300 p-5 text-center text-2xl text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white'>
-        <div className='flex items-center gap-2'>
+      className='w-full rounded border border-blue-300 p-2 text-center text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white md:p-5 md:md:text-2xl'>
+        <div className='flex justify-center items-center gap-2'>
             <FaCheck />
             <span> Quality Product</span>
         </div>
@@ -33,8 +33,8 @@ export default function Cat(){
   
       <motion.div 
       variants={Item}
-      className='w-full rounded border border-blue-300 p-5 text-center text-2xl text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white'>
-          <div className='flex items-center gap-2'>
+      className='w-full rounded border border-blue-300 p-2 text-center text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white md:p-5 md:md:text-2xl'>
+          <div className='flex items-center justify-center gap-2'>
               <RiTruckFill />
               <span>Free Shipping</span>
           </div>
@@ -42,8 +42,8 @@ export default function Cat(){
 
       <motion.div 
       variants={Item}
-      className='w-full rounded border border-blue-300 p-5 text-center text-2xl text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white'>
-        <div className='flex items-center gap-2'>
+      className='w-full rounded border border-blue-300 p-2 text-center text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white md:p-5 md:md:text-2xl'>
+        <div className='flex items-center justify-center gap-2'>
             <FaCheck />
             <span>14-Day Return</span>
          </div>
@@ -51,8 +51,8 @@ export default function Cat(){
 
       <motion.div 
       variants={Item}
-      className='w-full rounded border border-blue-300 p-5 text-center text-2xl text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white'>
-     <div className='flex items-center gap-2'>
+      className='w-full rounded border border-blue-300 p-2 text-center text-gray-700 shadow-xl hover:bg-blue-200 hover:text-white md:p-5 md:md:text-2xl'>
+     <div className='flex items-center justify-center gap-2'>
         <RiTruckFill />
         <span>24/7 Support</span>
     </div>

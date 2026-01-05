@@ -74,7 +74,7 @@ function Footer() {
     <div className='Footer px-15 z-40 flex w-full items-center justify-between bg-gray-900 py-5 max-md:flex-col'>
       
       <div> 
-        <p className='md:text-md text-center text-sm text-gray-300 hover:text-white'>
+        <p className='md:text-md mb-2 text-center text-sm text-gray-300 hover:text-white'>
         © 2025 <a href="https://github.com/mennaelbadry89">Menna Elbadry</a>, Inc. All rights reserved.
        </p>
        </div>

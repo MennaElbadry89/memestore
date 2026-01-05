@@ -1,6 +1,6 @@
 import { lazy , Suspense } from 'react';
 import LottiHandeler from "./assets/lottifiles/LottiHandeler";
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

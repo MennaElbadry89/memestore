@@ -42,10 +42,10 @@ const handleRemove = (id) => {
                               <div className="size-18 shrink-0 overflow-hidden rounded-full border border-gray-200">
                                 <img alt={product.cat} src={product.image} className="size-full rounded-full object-cover" />
                               </div>                            
-                                  <div className="text-md flex justify-around font-medium text-gray-900">
-                                    <p className="ml-1">product: {product.name}</p>
-                                    <p className="ml-2">price: {product.price}</p>
-                                    <p className="ml-2">Stock: {product.quantity}</p>
+                                  <div className="text-md flex justify-between font-medium text-gray-900">
+                                    <p className="ml-2">product: <strong className="ml-1">{product.name}</strong></p>
+                                    <p className="ml-2">price:  <strong className="ml-1">{product.price}</strong></p>
+                                    <p className="ml-2">Stock:  <strong className="ml-1">{product.quantity}</strong></p>
                                   </div>
 
                                 <div className="flex">
