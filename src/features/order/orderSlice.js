@@ -37,7 +37,7 @@ console.log(items)
         quantity: p.quantity || 1,
         image: p.image || "",
         cat: p.cat || "",
-        colors: p.caolors || [],
+        colors: p.colors || [],
         brand: p.brand || "",
       }));
 
@@ -46,8 +46,7 @@ console.log(items)
         items: cleanedItems,
         totalPrice: totalPrice || 0,
         status: "pending",
-        // createdAt: serverTimestamp(), 
-        createdAt: data.createdAt?.toMillis(),
+        createdAt: serverTimestamp(), 
       };
 
       const docRef = await addDoc(collection(db, "orders"), order);
@@ -75,6 +74,8 @@ export const fetchUserOrders = createAsyncThunk(
         orders.push({
           id: doc.id,
           ...doc.data(),
+        createdAt: serverTimestamp(), 
+          //  createdAt: data.createdAt?.toMillis(),
         });
       });
 
