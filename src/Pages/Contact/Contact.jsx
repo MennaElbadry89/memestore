@@ -2,19 +2,36 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage, resetContactState } from "../../features/contact/contactSlice";
 import toast from 'react-hot-toast';
-
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../features/auth/firebase";
 
 export default function Contact() {
+  const [phone, setPhone] = useState("");
+    
   const dispatch = useDispatch();
   const { loading, success, error } = useSelector((state) => state.contact);
+  const { user } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
+    name: user.displayName || "",
+    email: user.email || "",
+    phone: phone || "",
     message: "",
   });
-
+  
+  useEffect(() => {
+        if (user) {
+          const fetchData = async () => {
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              setPhone(docSnap.data().phone);
+            }
+          };
+         fetchData();
+        }
+      }, [user]);
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -30,9 +47,7 @@ export default function Contact() {
   useEffect(() => {
     if (success) {
     toast.success( "Message sent successfully");
-      
-      // alert("Message sent successfully ✅");
-      setFormData({ name: "", email: "", phone: "", message: "" });
+            setFormData({ name: "", email: "", phone: "", message: "" });
       dispatch(resetContactState());
     }
   }, [success, dispatch]);

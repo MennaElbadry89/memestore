@@ -27,17 +27,17 @@ export default function Sign() {
 
   return (
     <>
-    <div className="flex h-screen flex-col items-center justify-center bg-gray-100">
+    <div className="mx-auto flex h-screen flex-col items-center justify-center bg-gray-100">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
            <img  alt="" src="/image/melogo.jpg" className="mx-auto h-20 w-20 rounded-full"/>
            <div className="flex items-center justify-center gap-1">
-           <h2 className="my-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Welcome back frind</h2>
+           <h2 className="my-5 text-center font-bold tracking-tight text-gray-900 md:text-2xl/9">Welcome back frind</h2>
            <FaSmileBeam className="text-2xl text-gray-400"/>
            </div>
          </div>
       <form
         onSubmit={handleSubmit}
-        className="w-124 space-y-4 rounded-xl bg-white p-10 shadow-xl" >
+        className="md:w-124 mx-5 space-y-4 rounded-xl bg-white p-10 shadow-xl" >
         {/* <h2 className="text-center text-2xl font-bold">Login</h2> */}
 
         <input  type="email"  placeholder="Email"
@@ -57,7 +57,7 @@ export default function Sign() {
           {loading ? "Loading..." : "Login"}
         </button>
       </form>
-           <h2 className="my-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Don't have account <a href="/create" className="animate-ping text-blue-500 hover:animate-none"> create one</a></h2>
+           <h2 className="my-5 text-center font-bold tracking-tight text-gray-900 md:text-2xl/9">Don't have account <a href="/create" className="animate-ping text-blue-500 hover:animate-none"> create one</a></h2>
       
     </div>
 

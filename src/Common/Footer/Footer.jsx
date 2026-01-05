@@ -15,7 +15,7 @@ function Footer() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
           <div className="max-w-xl lg:max-w-lg">
-            <h2 className="text-4xl font-semibold tracking-tight text-white">Subscribe to our newsletter</h2>
+            <h2 className="text-2xl font-semibold tracking-tight text-white md:text-4xl">Subscribe to our newsletter</h2>
             <p className="mt-4 text-lg text-gray-300">
               Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing velit quis. Duis tempor incididunt
               dolore.
@@ -31,12 +31,10 @@ function Footer() {
                 required
                 placeholder="Enter your email"
                 autoComplete="email"
-                className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-              />
+                className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
               <button
                 type="submit"
-                className="shadow-xs flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-              >
+                className="shadow-xs flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                 Subscribe
               </button>
             </div>
@@ -69,15 +67,15 @@ function Footer() {
             clipPath:
               'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
           }}
-          className="aspect-1155/678 w-288.75 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
-        />
+          className="aspect-1155/678 w-288.75 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"/>
       </div>
     </div>
     {/* <Newsletter/> */}
     <div className='Footer px-15 z-40 flex w-full items-center justify-between bg-gray-900 py-5 max-md:flex-col'>
+      
       <div> 
-        <p className='max-md:text-md text-gray-300 hover:text-white'>
-        © 2025 Meme Store , Inc. All rights reserved.
+        <p className='md:text-md text-center text-sm text-gray-300 hover:text-white'>
+        © 2025 <a href="https://github.com/mennaelbadry89">Menna Elbadry</a>, Inc. All rights reserved.
        </p>
        </div>
          <div className='flex gap-5 text-2xl'>

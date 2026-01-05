@@ -14,13 +14,19 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import toast from 'react-hot-toast';
- 
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2' 
+import { addToWishlist } from "../../features/cart/wishlistSlice";
+import { FaRegHeart } from "react-icons/fa";
+import { BsCart4 } from "react-icons/bs";
 
 export default function Shoes() {
   const dispatch = useDispatch();
   const { items, loading } = useSelector((state) => state.products);
+       const { user } = useSelector((state) => state.auth);
 
+  const navigate =useNavigate()
+  
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -28,10 +34,55 @@ export default function Shoes() {
   
   const filtered = items.filter((e) => e.cat === 'Shoes');
   
-    const handleAddToCart = (item)=>{
-    dispatch(addToCart(item));
-    toast.success( `${item.name} added to🛒`);
-  }
+   const handleAddToCart = (product) => {
+       if (!user) {
+         Swal.fire({
+           icon: "warning",
+           title: "Login required",
+           text: "you must login to see cart ",
+           confirmButtonText: "login",
+           showCancelButton: true,
+           }).then((result) => {
+              if (result.isConfirmed) {
+                 navigate("/login");
+               }
+           });
+         return;
+       }
+       dispatch(addToCart(product));
+       Swal.fire({
+         icon: "success",
+         title: "addedToCart",
+         text: `${product.name} is add successfully`,
+         timer: 1500,
+         showConfirmButton: false,
+       });
+     };
+    
+       const handleAddToWishlist = (product) => {
+        if (!user) {
+          Swal.fire({
+            icon: "warning",
+            title: "Login required",
+            text: "you must login to see cart ",
+            confirmButtonText: "login",
+            showCancelButton: true,
+            }).then((result) => {
+               if (result.isConfirmed) {
+                  navigate("/login");
+                }
+            });
+          return;
+        }
+        dispatch(addToWishlist(product));
+        Swal.fire({
+          icon: "success",
+          title: "addedToWishlist",
+          text: `${product.name} is add successfully`,
+          timer: 500,
+          showConfirmButton: false,
+        });
+      }; 
 
   if (loading) return <LottiHandeler status={'page'} />;
 
@@ -44,7 +95,7 @@ export default function Shoes() {
           modules={[Navigation, Pagination, Scrollbar, Autoplay, A11y]}
           spaceBetween={20}
           slidesPerView={3}
-          autoplay={{ delay: 1000, disableOnInteraction: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: true }}
           navigation
           pagination={{ clickable: true }}
           breakpoints={{
@@ -83,10 +134,17 @@ export default function Shoes() {
                   <FaStar /><FaStar /><FaStar /><FaStar /><FaRegStar />
                 </div>
 
-                <button onClick={ ()=>{handleAddToCart(item); toast.success(`${item.name} added to 🛒`);}}
-                  className="mt-2 animate-pulse cursor-pointer rounded-2xl bg-gray-900 p-2 text-center text-white hover:bg-black">
-                  Add to cart
-                </button>
+                <div className='mt-8 flex items-center gap-2 rounded-md p-1'>
+                  <button onClick={() => handleAddToCart(item)}
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+                    Add<BsCart4/>
+                  </button>
+                            
+                  <button onClick={() => handleAddToWishlist(item)}
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
+                    Add<FaRegHeart/>
+                  </button> 
+                </div>
               </div>
             </SwiperSlide>
           ))}

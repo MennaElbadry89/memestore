@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FaStar } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productSlice";
 import LottiHandeler from "../../assets/lottifiles/LottiHandeler";
@@ -15,15 +15,18 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { toast } from "react-toastify";
-
+import Swal from 'sweetalert2'
+import { addToWishlist } from "../../features/cart/wishlistSlice";
+import { FaRegHeart } from "react-icons/fa";
+import { BsCart4 } from "react-icons/bs";
 
 export default function NewArrival() {
 
      const dispatch = useDispatch();
-      // navigate = useNavigate();
+     const navigate = useNavigate();
    
      const { items, loading } = useSelector((state) => state.products);
+     const { user } = useSelector((state) => state.auth);
   
     useEffect(() => {
       dispatch(fetchProducts());
@@ -31,11 +34,57 @@ export default function NewArrival() {
   
     const filtered = items.slice(10,20);
     
-   const handleAddToCart = (item)=>{
-    dispatch(addToCart(item));
-    toast.success( `${item.name} added to🛒`);
-  }
-
+ const handleAddToCart = (product) => {
+     if (!user) {
+       Swal.fire({
+         icon: "warning",
+         title: "Login required",
+         text: "you must login to see cart ",
+         confirmButtonText: "login",
+         showCancelButton: true,
+         }).then((result) => {
+            if (result.isConfirmed) {
+               navigate("/login");
+             }
+         });
+       return;
+     }
+     dispatch(addToCart(product));
+     Swal.fire({
+       icon: "success",
+       title: "addedToCart",
+       text: `${product.name} is add successfully`,
+       timer: 1500,
+       showConfirmButton: false,
+     });
+   };
+ 
+  
+     const handleAddToWishlist = (product) => {
+      if (!user) {
+        Swal.fire({
+          icon: "warning",
+          title: "Login required",
+          text: "you must login to see cart ",
+          confirmButtonText: "login",
+          showCancelButton: true,
+          }).then((result) => {
+             if (result.isConfirmed) {
+                navigate("/login");
+              }
+          });
+        return;
+      }
+      dispatch(addToWishlist(product));
+      Swal.fire({
+        icon: "success",
+        title: "addedToWishlist",
+        text: `${product.name} is add successfully`,
+        timer: 500,
+        showConfirmButton: false,
+      });
+    }; 
+    
     // const filtered = items.filter((e)=> e.price <= 600);
     if (loading) return <LottiHandeler status={'page'}/>;
   return (
@@ -46,7 +95,7 @@ export default function NewArrival() {
                    modules={[Navigation, Pagination, Scrollbar, Autoplay, A11y]}
                    spaceBetween={20}
                    slidesPerView={3}
-                   autoplay={{ delay: 1000, disableOnInteraction: true }}
+                   autoplay={{ delay: 3000, disableOnInteraction: true }}
                    navigation
                    pagination={{ clickable: true }}
                   //  scrollbar={{ draggable: true }}
@@ -82,7 +131,7 @@ export default function NewArrival() {
                 {product.colors.length > 0 && (
                   <div className="mt-1 flex gap-1">
                     {product.colors.map((c , index) => (
-                      <span key={c.index} className="h-4 w-4 rounded-full border" style={{ backgroundColor: c }}  title={c} />
+                      <span key={index} className="h-4 w-4 rounded-full border" style={{ backgroundColor: c }}  title={c} />
                     ))}
                   </div>
                 )}
@@ -96,9 +145,19 @@ export default function NewArrival() {
                 <div className="my-1 flex text-lg font-medium text-yellow-500">
                   <FaStar /><FaStar /><FaStar /><FaStar /><FaRegStar />
                 </div>
-              <button onClick={() => { handleAddToCart(product)}} 
-               className="w-full cursor-pointer rounded-2xl bg-gray-900 p-2 text-center text-white opacity-0 group-hover:opacity-100">
-                Add to cart</button>
+               
+                <div className='mt-8 flex items-center gap-2 rounded-md p-1'>
+                  <button onClick={() => handleAddToCart(product)}
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+                    Add<BsCart4/>
+                  </button>
+                            
+                  <button onClick={() => handleAddToWishlist(product)}
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
+                    Add<FaRegHeart/>
+                  </button> 
+                </div>
+                
             </SwiperSlide>
           ))}
       </Swiper>

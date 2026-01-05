@@ -1,27 +1,18 @@
 import './Navbar.css'
 'use client'
 
+import { FaRegHeart } from "react-icons/fa";
 import { Fragment, useState } from 'react'
 import { useSelector , useDispatch} from 'react-redux'
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-} from '@headlessui/react'
+import { Dialog, DialogBackdrop , DialogPanel, Popover, PopoverButton,
+    PopoverGroup,  PopoverPanel,  Tab,  TabGroup,  TabList,  TabPanel,
+    TabPanels,} from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 import { logoutUser } from "../../features/auth/authSlice"; 
 import CartFlying from "../../Pages/Cart/CartFlying"
 // import { removeFromCart, clearCart,  increaseQuantity, decreaseQuantity,  } from "../../features/cart/cartSlice";
+import Swal from 'sweetalert2'
 
 import { toast } from "react-toastify";
 
@@ -85,27 +76,57 @@ export default function Navbar() {
   const [show , setShow] = useState(false);
   const [openn, setOpenn] = useState(false);
   const [op, setOp] = useState(false)  // logout modal
+  
   const handleLogout = () => {
-    dispatch(logoutUser()); // يمسح الـ user من redux و localStorage
+    dispatch(logoutUser()); 
     navigate("/"); 
     setOp(!op);
   };
+  
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
-  const { totalQuantity } = useSelector((state) => state.cart)
-  const navigate = useNavigate()
+  
   const { user } = useSelector((state) => state.auth); 
+  const { totalQuantity } = useSelector((state) => state.cart)
+  const { totalCount } = useSelector((state) => state.wishlist)
+  const navigate = useNavigate()
   
  const handleShowCart = () => {
   if (!user) {
-    toast.warning("You must login first!!", {
-      onClose: () => navigate("/login"),
-      autoClose: 1500,
-    });
-  } else {
-    navigate("/cart");
-  }
-};
+        Swal.fire({
+          icon: "warning",
+          title: "Login required",
+          text: "you must login to see cart ",
+          confirmButtonText: "login",
+          showCancelButton: true,
+          }).then((result) => {
+             if (result.isConfirmed) {
+                navigate("/login");
+              }
+          });
+        return;
+      }else{
+        navigate('/cart')
+      }
+  };
+ const handleShowWishlist = () => {
+  if (!user) {
+        Swal.fire({
+          icon: "warning",
+          title: "Login required",
+          text: "you must login to see cart ",
+          confirmButtonText: "login",
+          showCancelButton: true,
+          }).then((result) => {
+             if (result.isConfirmed) {
+                navigate("/login");
+              }
+          });
+        return;
+      }else{
+        navigate('/wishlist')
+      }
+  };
  
   
   return (
@@ -351,6 +372,15 @@ export default function Navbar() {
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon aria-hidden="true" className="size-6" />
                   </a>
+                </div>
+                
+               {/* Wishlist */}
+                <div className="relative ml-4 flow-root lg:ml-6"  >      
+                  <button onClick={handleShowWishlist}  className="group -m-2 flex items-center p-2">
+                    <FaRegHeart aria-hidden="true" className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"/>
+                   {user? (<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{totalCount}</span>
+                    ):""}
+                  </button>
                 </div>
 
                 {/* Cart */}

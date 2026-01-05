@@ -21,11 +21,11 @@ const Shoes = lazy(()=> import('./Pages/Shop/Shoes'))
 const Bags = lazy(()=> import('./Pages/Shop/Bags'))
 const ProductDetails = lazy(()=> import('./Pages/Shop/ProductDetails'))
 const Deals = lazy(()=> import('./Pages/Shop/Deals'))
-const Modal = lazy(()=> import('./Pages/Shop/Modal'))
 const Company = lazy(()=> import('./Pages/Company/Company'))
 const Contact = lazy(()=> import('./Pages/Contact/Contact'))
 const Team = lazy(()=> import('./Pages/Team/Team'))
 const Search = lazy(()=> import('./Pages/Search/Search'))
+const Wishlist = lazy(()=> import('./Pages/Wishlist/Wishlist'))
 const Cart = lazy(()=> import('./Pages/Cart/Cart'))
 const CartFlying = lazy(()=> import('./Pages/Cart/CartFlying'))
 const Checkout = lazy(()=> import('./Pages/Cart/Checkout'))
@@ -61,8 +61,6 @@ const router = createBrowserRouter([
                 <Suspense fallback={<LottiHandeler status= 'main' />}> <Home/></Suspense> },
       {path: 'product/:id' , element :
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <ProductDetails/></Suspense> },
-      {path: 'modal' , element :
-                <Suspense fallback={<LottiHandeler status= 'page' />}> <Modal/></Suspense> },
       {path: 'deals' , element :
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Deals/></Suspense> },
       {path: 'shop' , element :
@@ -81,6 +79,8 @@ const router = createBrowserRouter([
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Contact/></Suspense>},
       {path: 'search' , element :
                 <Suspense fallback={<LottiHandeler status= 'page' />}> <Search/></Suspense>},
+      {path: 'wishlist' , element :
+                <Suspense fallback={<LottiHandeler status= 'cart' />}> <Wishlist/></Suspense> },
       {path: 'cart' , element :
                 <Suspense fallback={<LottiHandeler status= 'cart' />}> <Cart/></Suspense> },
       {path: 'cartFlying' , element :

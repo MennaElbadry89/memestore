@@ -4,9 +4,14 @@ import { fetchProducts } from "../../features/products/productSlice";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { addToCart } from "../../features/cart/cartSlice";
-import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 import LottiHandeler from "../../assets/lottifiles/LottiHandeler";
+import { addToWishlist } from "../../features/cart/wishlistSlice";
+import { FaRegHeart } from "react-icons/fa";
+import { BsCart4 } from "react-icons/bs";
+
+
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
@@ -18,19 +23,69 @@ export default function ProductDetails() {
 
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate()
+  
+     const { user } = useSelector((state) => state.auth);
 
   const { items, status , loading} = useSelector((state) => state.products);
+  const { products} = useSelector((state) => state.wishlist);
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
   const product = items.find((item) => item.id == id);
-    const handleAddToCart = (item)=>{
-    dispatch(addToCart(item));
-    toast.success( `${item.name} added to🛒`);
-  }
-
+   
+  const handleAddToCart = (product) => {
+      if (!user) {
+        Swal.fire({
+          icon: "warning",
+          title: "Login required",
+          text: "you must login to see cart ",
+          confirmButtonText: "login",
+          showCancelButton: true,
+          }).then((result) => {
+             if (result.isConfirmed) {
+                navigate("/login");
+              }
+          });
+        return;
+      }
+      dispatch(addToCart(product));
+      Swal.fire({
+        icon: "success",
+        title: "add",
+        text: `${product.name} is add successfully`,
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    };
+    
+     const handleAddToWishlist = (product) => {
+      if (!user) {
+        Swal.fire({
+          icon: "warning",
+          title: "Login required",
+          text: "you must login to see cart ",
+          confirmButtonText: "login",
+          showCancelButton: true,
+          }).then((result) => {
+             if (result.isConfirmed) {
+                navigate("/login");
+              }
+          });
+        return;
+      }
+      dispatch(addToWishlist(product));
+      Swal.fire({
+        icon: "success",
+        title: "add",
+        text: `${product.name} is add successfully`,
+        timer: 500,
+        showConfirmButton: false,
+      });
+    };
+  
   
 if (!product) {
   return <div className="py-20 text-center">Loading...</div>;
@@ -99,11 +154,17 @@ if (!product) {
             <h3 className="font-medium">Description</h3>
             <p className="mt-2 text-gray-600">{product.description}</p>
           </div>
-
+        <div className='mt-8 flex items-center gap-2 rounded-md p-1'>
           <button onClick={() => handleAddToCart(product)}
-           className="mt-8 w-full rounded-md bg-gray-600 py-3 text-white hover:bg-gray-700">
-            Add to cart
+           className="flex w-auto items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+            Add<BsCart4/>
           </button>
+                    
+          <button onClick={() => handleAddToWishlist(product)}
+           className="flex w-auto items-center justify-center gap-1 rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
+            Add<FaRegHeart/>
+          </button>
+        </div>
         </div>
 
       </div>

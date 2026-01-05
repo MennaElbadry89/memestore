@@ -1,27 +1,63 @@
 import { createAsyncThunk ,createSlice} from "@reduxjs/toolkit";
-import { addDoc, collection, serverTimestamp,getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp , getDocs, query, where } from "firebase/firestore";
 import { db  } from "../auth/firebase";
 
+
+// export const createOrder = createAsyncThunk(
+//   "orders/createOrder",
+//   async ({ items, totalPrice, userId }, thunkAPI) => {
+//     try {
+//       const order = {
+//         userId,
+//         items,
+//         totalPrice,
+//         status: "pending",
+//         createdAt: serverTimestamp(),
+//       };
+
+//       await addDoc(collection(db, "orders"), order);
+//       return order;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 export const createOrder = createAsyncThunk(
   "orders/createOrder",
   async ({ items, totalPrice, userId }, thunkAPI) => {
     try {
+      if (!userId) throw new Error("User ID is missing");
+      if (!items || items.length === 0) throw new Error("Cart is empty");
+console.log(items)
+      const cleanedItems = items.map(p => ({
+        id: p.id || "",
+        name: p.name || "Product",
+        price: p.price || 0,
+        quantity: p.quantity || 1,
+        image: p.image || "",
+        cat: p.cat || "",
+        colors: p.caolors || [],
+        brand: p.brand || "",
+      }));
+
       const order = {
         userId,
-        items,
-        totalPrice,
+        items: cleanedItems,
+        totalPrice: totalPrice || 0,
         status: "pending",
-        createdAt: serverTimestamp(),
+        // createdAt: serverTimestamp(), 
+        createdAt: data.createdAt?.toMillis(),
       };
 
-      await addDoc(collection(db, "orders"), order);
-      return order;
+      const docRef = await addDoc(collection(db, "orders"), order);
+      return { id: docRef.id, ...order };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
+
 
 export const fetchUserOrders = createAsyncThunk(
   "orders/fetchUserOrders",

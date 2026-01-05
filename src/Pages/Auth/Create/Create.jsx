@@ -77,12 +77,12 @@ const handleSubmit = (e) => {
 
 
   return (
-    <div className="mx-auto my-10 flex max-w-md flex-col items-center justify-center rounded-2xl p-6 shadow-2xl">
+    <div className="mx-auto flex w-full flex-col items-center justify-center rounded-2xl bg-gray-100 p-6 py-10 shadow-2xl">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
            <img  alt="" src="/image/melogo.jpg" className="mx-auto h-20 w-20 rounded-full"/>
            <h2 className="my-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Create New Account</h2>
           </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="md:w-124 mx-5 space-y-4 rounded-xl bg-white p-10 shadow-xl">
         
         <input type="text" placeholder="fullName" required
           className="w-full rounded border border-gray-200 p-2"

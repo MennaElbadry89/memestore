@@ -46,6 +46,7 @@ export default function Checkout() {
   };
 
  const handleCheckout = async () => {
+    console.log("Checkout clicked");
   try {
     await dispatch(
       createOrder({
@@ -54,7 +55,7 @@ export default function Checkout() {
         userId: user.uid,
       })
     ).unwrap(); // 👈 مهم جدًا
-
+    console.log("Order created successfully");
     dispatch(clearCart());   
     navigate("/orders");     
   } catch (error) {
@@ -66,7 +67,6 @@ export default function Checkout() {
   return (
     // <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 md:grid-cols-3">
     <div className="mx-auto max-w-6xl">
-      {/* Left: Checkout Form */}
       <div className="flex flex-col rounded-2xl p-6 shadow-lg md:col-span-2">
         <h2 className="mb-4 text-center text-2xl font-bold">Checkout</h2>
         <div className="mb-5">
@@ -88,6 +88,8 @@ export default function Checkout() {
               <p className="my-2 font-bold">TotalPrice:<strong className="text-red-600">${totalPrice}</strong></p>
             </div>
         </div>
+                             {/*  Checkout Form */}
+        
         <form onSubmit={(e)=>e.preventDefault()} className="space-y-4">
           
           <input  name="name"  placeholder="Full Name"

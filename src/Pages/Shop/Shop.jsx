@@ -10,7 +10,10 @@ import LottiHandeler from "../../assets/lottifiles/LottiHandeler";
 import { addToCart } from "../../features/cart/cartSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import Swal from 'sweetalert2'
+import { addToWishlist } from "../../features/cart/wishlistSlice";
+import { FaRegHeart } from "react-icons/fa";
+import { BsCart4 } from "react-icons/bs";
 
 export default function Shop() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +24,9 @@ export default function Shop() {
     const navigate = useNavigate();
 
    const { items, loading } = useSelector((state) => state.products);
+     const { products, totalCount} = useSelector((state) => state.wishlist);
+   
+     const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -34,12 +40,57 @@ export default function Shop() {
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
   
-  const handleAddToCart = (item)=>{
-    dispatch(addToCart(item));
-    toast.success( `${item.name} added to🛒`);
-  }
-  
-  
+const handleAddToCart = (product) => {
+    if (!user) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login required",
+        text: "you must login to see cart ",
+        confirmButtonText: "login",
+        showCancelButton: true,
+        }).then((result) => {
+           if (result.isConfirmed) {
+              navigate("/login");
+            }
+        });
+      return;
+    }
+    dispatch(addToCart(product));
+    Swal.fire({
+      icon: "success",
+      title: "addedToCart",
+      text: `${product.name} is add successfully`,
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  };
+
+    
+       const handleAddToWishlist = (product) => {
+        if (!user) {
+          Swal.fire({
+            icon: "warning",
+            title: "Login required",
+            text: "you must login to see cart ",
+            confirmButtonText: "login",
+            showCancelButton: true,
+            }).then((result) => {
+               if (result.isConfirmed) {
+                  navigate("/login");
+                }
+            });
+          return;
+        }
+        dispatch(addToWishlist(product));
+        Swal.fire({
+          icon: "success",
+          title: "addedToWishlist",
+          text: `${product.name} is add successfully`,
+          timer: 500,
+          showConfirmButton: false,
+        });
+      };
+      
   return (
 
     <>
@@ -61,7 +112,7 @@ export default function Shop() {
             {item.colors.length > 0 && ( 
               <div className="mt-1 flex gap-1">
                  {item.colors.map((c, index) => (
-                      <span key={c.index} className="h-4 w-4 rounded-full border"
+                      <span key={index} className="h-4 w-4 rounded-full border"
                       style={{ backgroundColor: c }} title={c} />))}
               </div> )}
              <div className="mt-1 flex items-center gap-2">
@@ -72,23 +123,27 @@ export default function Shop() {
               <div className="my-1 flex text-lg font-medium text-yellow-500">
                   <FaStar /><FaStar /><FaStar /><FaStar /><FaRegStar />
               </div>
-             <button  onClick={() => handleAddToCart(item)}
-                 className="mt-2 cursor-pointer rounded-2xl bg-gray-900 p-2 text-center text-white hover:bg-black">
-                   Add to cart
-             </button>
+                <div className='mt-8 flex items-center gap-2 rounded-md p-1'>
+                  <button onClick={() => handleAddToCart(item)}
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+                    Add<BsCart4/>
+                  </button>
+                            
+                  <button onClick={() => handleAddToWishlist(item)}
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
+                    Add<FaRegHeart/>
+                  </button> 
+                </div>
          </div>
        ))}
-
-          
-          
+                
         </div>
       </div>
       {/* <Cart/> */}
     </div>
 
-
            <Pagination currentPage={currentPage}  totalPages={totalPages}  
-             onPageChange={(page) => setCurrentPage(page)}/>
+             onPageChange={(page) => setCurrentPage(page)} />
   
     </>
 
