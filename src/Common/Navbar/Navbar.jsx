@@ -14,7 +14,6 @@ import CartFlying from "../../Pages/Cart/CartFlying"
 // import { removeFromCart, clearCart,  increaseQuantity, decreaseQuantity,  } from "../../features/cart/cartSlice";
 import Swal from 'sweetalert2'
 
-import { toast } from "react-toastify";
 
 const navigation = {
   categories: [
@@ -215,14 +214,31 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+           {(!user)?( <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               <div className="flow-root">
                 <a href="/login" className="-m-2 block p-2 font-medium text-gray-900"> Sign in </a>
               </div>
               <div className="flow-root">
                 <a href="/register" className="-m-2 block p-2 font-medium text-gray-900">Create account</a>
               </div>
-            </div>
+            </div>): ( <div className="flex flex-col space-y-6 border-t border-gray-200 px-4 py-6 lg:hidden">
+              <div 
+                className="flex items-center gap-2 text-gray-700 hover:text-gray-800 focus:outline-none">
+                <span className="text-md ml-3 block font-bold">{user?.displayName}</span>
+               {user.photoURL?( <img src={user.photoURL}
+                  className="h-10 w-10 rounded-full" alt="User avatar"/>):""}
+              </div>          
+              <div className="flex flex-col">
+                <button  onClick={() => {navigate("/profile")}}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100" > Profile </button>
+                <button
+                  onClick={() => {navigate("/orders")}}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100" >Orders </button>
+                <button  onClick={() =>{setOp(!op); setOpenn(!openn)} }
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Logout  </button>
+              </div>
+              
+              </div>)} 
 
 
           </DialogPanel>
@@ -330,14 +346,11 @@ export default function Navbar() {
                 </div> */}
                 
     { user &&( <div className="relative hidden lg:flex">
-      <button
-        onClick={() => setOpenn(!openn)}
+      <button  onClick={() => setOpenn(!openn)}
         className="flex items-center gap-2 text-gray-700 hover:text-gray-800 focus:outline-none">
         <span className="ml-3 block text-sm font-medium">{user ? user.displayName : "Guest"}</span>
-       {user.photoURL?( <img
-          src={user.photoURL}
-          className="h-10 w-10 rounded-full"
-          alt="User avatar"/>):""}
+       {user.photoURL?( <img src={user.photoURL}
+          className="h-10 w-10 rounded-full" alt="User avatar"/>):""}
       </button>
 
       {openn && (
@@ -376,7 +389,7 @@ export default function Navbar() {
                 
                {/* Wishlist */}
                 <div className="relative ml-4 flow-root lg:ml-6"  >      
-                  <button onClick={handleShowWishlist}  className="group -m-2 flex items-center p-2">
+                  <button onClick={handleShowWishlist}  className="group -m-2 flex cursor-pointer items-center p-2">
                     <FaRegHeart aria-hidden="true" className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"/>
                    {user? (<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{totalCount}</span>
                     ):""}
@@ -385,7 +398,7 @@ export default function Navbar() {
 
                 {/* Cart */}
                 <div className="relative ml-4 flow-root lg:ml-6"  onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}>      
-                  <button onClick={handleShowCart}  className="group -m-2 flex items-center p-2">
+                  <button onClick={handleShowCart}  className="group -m-2 flex cursor-pointer items-center p-2">
                     <ShoppingBagIcon aria-hidden="true" className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"/>
                    {user? (<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{totalQuantity}</span>
                     ):""}

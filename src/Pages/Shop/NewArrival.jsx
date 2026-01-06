@@ -146,15 +146,15 @@ export default function NewArrival() {
                   <FaStar /><FaStar /><FaStar /><FaStar /><FaRegStar />
                 </div>
                
-                <div className='mt-8 flex items-center gap-2 rounded-md p-1'>
+                <div className='mt-8 flex items-center justify-between rounded-md bg-gray-600 p-1 text-2xl'>
                   <button onClick={() => handleAddToCart(product)}
                    className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
-                    Add<BsCart4/>
+                    <BsCart4/>
                   </button>
                             
                   <button onClick={() => handleAddToWishlist(product)}
-                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
-                    Add<FaRegHeart/>
+                   className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+                    <FaRegHeart/>
                   </button> 
                 </div>
                 

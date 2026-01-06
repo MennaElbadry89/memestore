@@ -34,12 +34,12 @@ const handleRemove = (id) => {
       
       {products.length !=0 ?(
       <div  className="rounded-md bg-white p-2 text-sm font-semibold text-gray-900">
-              <div className="m-4 max-w-6xl">
+              <div className="mx-auto my-5 max-w-6xl">
                       <div className="flex flex-col">
                         <ul className="">
                           {products.map((product) => (
                             <li key={product.id} className="mx-2 flex items-center justify-around p-2 shadow-lg md:mx-10">
-                              <div className="size-18 shrink-0 overflow-hidden rounded-full border border-gray-200">
+                              <div className="size-10 md:size-18 shrink-0 overflow-hidden rounded-full border border-gray-200">
                                 <img alt={product.cat} src={product.image} className="size-full rounded-full object-cover" />
                               </div>                            
                                   <div className="text-md flex justify-between font-medium text-gray-900">
@@ -50,7 +50,7 @@ const handleRemove = (id) => {
 
                                 <div className="flex">
                                     <button type="button" onClick={()=>openModal(product.id)}
-                                     className="rounded-xl bg-red-600 p-2 font-medium text-white hover:bg-red-500">
+                                     className="rounded-xl bg-red-600 p-2 text-sm font-medium text-white hover:bg-red-500">
                                       Remove
                                     </button>
                                                  {/* remove modal */}                                    
@@ -71,11 +71,11 @@ const handleRemove = (id) => {
                            <div className="mx-2 my-6 flex items-center justify-between px-5 py-4 shadow-lg md:mx-10">
                             <div className="mx-auto flex items-center justify-center gap-2 max-md:flex-col md:flex-row">
                            <button type="button" onClick={()=>setOpen(!open)}
-                              className="rounded-xl bg-red-600 p-2 font-medium text-white hover:bg-red-500">
+                              className="rounded-xl bg-red-600 p-2 font- text-sm text-white hover:bg-red-500">
                               clearWishlist  
                            </button>
                           <button type="button" onClick={()=>navigate('/shop')}
-                              className="rounded-xl bg-gray-600 p-2 font-medium text-white hover:bg-red-500">
+                              className="rounded-xl bg-gray-600 p-2 font-medium text-sm text-white hover:bg-red-500">
                               shop now 
                            </button>
                            

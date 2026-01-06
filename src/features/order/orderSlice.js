@@ -3,26 +3,6 @@ import { addDoc, collection, serverTimestamp , getDocs, query, where } from "fir
 import { db  } from "../auth/firebase";
 
 
-// export const createOrder = createAsyncThunk(
-//   "orders/createOrder",
-//   async ({ items, totalPrice, userId }, thunkAPI) => {
-//     try {
-//       const order = {
-//         userId,
-//         items,
-//         totalPrice,
-//         status: "pending",
-//         createdAt: serverTimestamp(),
-//       };
-
-//       await addDoc(collection(db, "orders"), order);
-//       return order;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
 export const createOrder = createAsyncThunk(
   "orders/createOrder",
   async ({ items, totalPrice, userId }, thunkAPI) => {
@@ -75,7 +55,6 @@ export const fetchUserOrders = createAsyncThunk(
           id: doc.id,
           ...doc.data(),
         createdAt: serverTimestamp(), 
-          //  createdAt: data.createdAt?.toMillis(),
         });
       });
 

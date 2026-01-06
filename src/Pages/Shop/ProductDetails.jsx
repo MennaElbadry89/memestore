@@ -154,15 +154,15 @@ if (!product) {
             <h3 className="font-medium">Description</h3>
             <p className="mt-2 text-gray-600">{product.description}</p>
           </div>
-        <div className='mt-8 flex items-center gap-2 rounded-md p-1'>
+        <div className='mt-8 flex items-center justify-between rounded-md bg-gray-600 p-1 text-2xl'>
           <button onClick={() => handleAddToCart(product)}
-           className="flex w-auto items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
-            Add<BsCart4/>
+           className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+            <BsCart4/>
           </button>
                     
           <button onClick={() => handleAddToWishlist(product)}
-           className="flex w-auto items-center justify-center gap-1 rounded-md bg-gray-800 p-3 text-white hover:bg-gray-700">
-            Add<FaRegHeart/>
+           className="flex w-auto cursor-pointer items-center justify-center gap-1 rounded-md bg-gray-600 p-3 text-white hover:bg-gray-700">
+            <FaRegHeart/>
           </button>
         </div>
         </div>
