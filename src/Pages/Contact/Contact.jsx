@@ -13,9 +13,9 @@ export default function Contact() {
   const { user } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
-    name: user.displayName || "",
-    email: user.email || "",
-    phone: phone || "",
+    name: user ? user.displayName : "",
+    email: user ? user.email : "",
+    phone: user ? phone : "",
     message: "",
   });
   
