@@ -59,31 +59,43 @@ export default function Bags() {
     });
   };
   
-  const handleAddToWishlist = (product) => {
-        if (!user) {
-          Swal.fire({
-            icon: "warning",
-            title: "Login required",
-            text: "you must login to see cart ",
-            confirmButtonText: "login",
-            showCancelButton: true,
-            }).then((result) => {
-               if (result.isConfirmed) {
-                  navigate("/login");
-                }
-            });
-          return;
-        }
-        dispatch(addToWishlist(product));
-        Swal.fire({
-          icon: "success",
-          title: "addedToWishlist",
-          text: `${product.name} is add successfully`,
-          timer: 500,
-          showConfirmButton: false,
-        });
-      };
+ const cartProducts = useSelector((state) => state.cart.products);
     
+const handleAddToWishlist = (product) => {
+  if (!user) {
+    Swal.fire({
+      icon: "warning",
+      title: "Login required",
+      text: "You must login to access your wishlist",
+      confirmButtonText: "Login",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
+    });
+    return;
+  }
+  const isInCart = cartProducts.some((item) => item.id === product.id);
+  if (isInCart) {
+    Swal.fire({
+      icon: "info",
+      title: "Already in cart",
+      text: "This product is already in your cart",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+    return;
+  }
+  dispatch(addToWishlist(product));
+  Swal.fire({
+    icon: "success",
+    title: "Added to Wishlist",
+    text: `${product.name} was added successfully`,
+    timer: 1000,
+    showConfirmButton: false,
+  });
+};
 
     if (loading) return <LottiHandeler status={'page'}/>;
   return (

@@ -1,56 +1,59 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage, resetContactState } from "../../features/contact/contactSlice";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { contactSchema } from "./contactSchema";
+
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../features/auth/firebase";
 
 export default function Contact() {
-  const [phone, setPhone] = useState("");
-    
   const dispatch = useDispatch();
   const { loading, success, error } = useSelector((state) => state.contact);
   const { user } = useSelector((state) => state.auth);
 
-  const [formData, setFormData] = useState({
-    name: user ? user.displayName : "",
-    email: user ? user.email : "",
-    phone: user ? phone : "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(contactSchema),
   });
-  
-  useEffect(() => {
-        if (user) {
-          const fetchData = async () => {
-            const docRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-              setPhone(docSnap.data().phone);
-            }
-          };
-         fetchData();
-        }
-      }, [user]);
-  
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(sendMessage(formData));
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchData = async () => {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setValue("name", user.displayName || "");
+        setValue("email", user.email || "");
+        setValue("phone", docSnap.data().phone || "");
+      }
+    };
+
+    fetchData();
+  }, [user, setValue]);
+
+  const onSubmit = (data) => {
+    dispatch(sendMessage(data));
   };
 
   useEffect(() => {
     if (success) {
-    toast.success( "Message sent successfully");
-            setFormData({ name: "", email: "", phone: "", message: "" });
+      toast.success("Message sent successfully");
+      reset();
       dispatch(resetContactState());
     }
-  }, [success, dispatch]);
+  }, [success, reset, dispatch]);
+
 
   return (
       <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">      
@@ -66,50 +69,59 @@ export default function Contact() {
         <h2 className="text-balance text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Contact sales</h2>        
          <p className="mt-2 text-lg/8 text-gray-600">Aute magna irure deserunt veniam aliqua magna enim voluptate.</p>       
       </div>
-    <form onSubmit={handleSubmit} className="mx-auto mt-5 max-w-lg space-y-4">
-      <input
-        name="name"
-        placeholder="Your name"
-        required
-        value={formData.name}
-        onChange={handleChange}
-        className="w-full rounded border p-2" />
+    <form  onSubmit={handleSubmit(onSubmit)} 
+    className="mx-auto mt-5 max-w-lg space-y-4 rounded-2xl border border-gray-200 p-5 shadow-2xl">
+      <input 
+          type="text"
+          name="name"
+          placeholder="Your name"
+          {...register("name")}
+          className="w-full rounded border border-gray-200 p-2"/>
+        {errors.name && (
+          <p className="text-sm text-red-600">{errors.name.message}</p>
+        )}
 
-      <input
-        type="email"
-        name="email"
-        placeholder="Your email"
-        required
-        value={formData.email}
-        onChange={handleChange}
-        className="w-full rounded border p-2"/>
+        <input
+          type="email"
+          name= "email"
+          placeholder="Your email"
+          {...register("email")}
+          className="w-full rounded border border-gray-200 p-2"/>
+        {errors.email && (
+          <p className="text-sm text-red-600">{errors.email.message}</p>
+        )}
 
-      <input
-        name="phone"
-        placeholder="Phone"
-        value={formData.phone}
-        onChange={handleChange}
-        className="w-full rounded border p-2"/>
+        <input
+        type="text"
+          name= "phone"
+          placeholder="Phone"
+          {...register("phone")}
+          className="w-full rounded border border-gray-200 p-2"/>
+        {errors.phone && (
+          <p className="text-sm text-red-600">{errors.phone.message}</p>
+        )}
 
-      <textarea
-        name="message"
-        placeholder="Your message"
-        required
-        rows="4"
-        value={formData.message}
-        onChange={handleChange}
-        className="w-full rounded border p-2" />
+        <textarea
+        type="text"
+          name= "message"
+          rows="4"
+          placeholder="Your message"
+          {...register("message")}
+          className="w-full rounded border border-gray-200 p-2"/>
+        {errors.message && (
+          <p className="text-sm text-red-600">{errors.message.message}</p>
+        )}
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600">{error}</p>}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full rounded bg-indigo-600 py-2 text-white disabled:opacity-50" >
-        {loading ? "Sending..." : "Send Message"}
-      </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="flex w-full items-center justify-center rounded bg-gray-600 py-2 text-white disabled:opacity-50">
+          {loading ? <div className="h-5 w-5 animate-spin rounded-full border-2 border-white"/>: "Send Message"}
+        </button>
     </form>
     </div>
-  );
+  ); 
 }
 

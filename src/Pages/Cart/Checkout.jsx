@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import LottiHandeler from "../../assets/lottifiles/LottiHandeler";
 import { clearCart } from "../../features/cart/cartSlice";
@@ -14,10 +14,9 @@ export default function Checkout() {
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState({}); 
   const[open , setOpen] = useState(false) 
+ 
   const dispatch  = useDispatch()
   const navigate = useNavigate()
-  
-
   
   const [form, setForm] = useState({
     name: "",
@@ -54,7 +53,7 @@ export default function Checkout() {
         totalPrice,
         userId: user.uid,
       })
-    ).unwrap(); // 👈 مهم جدًا
+    ).unwrap(); 
     console.log("Order created successfully");
     dispatch(clearCart());   
     navigate("/orders");     
@@ -65,10 +64,9 @@ export default function Checkout() {
 
 
   return (
-    // <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 md:grid-cols-3">
     <div className="mx-auto max-w-6xl">
       <div className="flex flex-col rounded-2xl p-6 shadow-lg md:col-span-2">
-        <h2 className="mb-4 text-center text-2xl font-bold">Checkout</h2>
+        <h2 className="my-4 text-center text-2xl font-bold">Checkout</h2>
         <div className="mb-5">
              <ul className="">
                 {products.map((product) => (
@@ -126,7 +124,7 @@ export default function Checkout() {
             </div>
           </div>
 
-          <button onClick={()=>setOpen(!open)} className="mt-4 w-full rounded-2xl bg-indigo-600 p-3 text-white">
+          <button onClick={()=>setOpen(!open)} className="mt-4 w-full rounded-2xl bg-gray-600 p-3 text-white">
             Place Order
           </button>
                              {/* checkout modal */}                            
@@ -141,31 +139,6 @@ export default function Checkout() {
             </div>}
         </form>
       </div>
-
-
-
-
-      {/* Right: Order Summary */}
-      {/* <div className="rounded-2xl bg-gray-50 p-6 shadow-lg">
-        <h3 className="mb-4 text-xl font-bold">Order Summary</h3>
-        <div className="space-y-3">
-          <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>$120</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Shipping</span>
-            <span>$10</span>
-          </div>
-          <div className="mt-3 flex justify-between text-lg font-bold">
-            <span>Total</span>
-            <span>$130</span>
-          </div>
-        </div>
-        <button className="mt-6 w-full rounded-2xl bg-green-600 p-3 text-white">
-          Confirm & Pay
-        </button>
-      </div> */}
     </div>
   );
 }

@@ -9,7 +9,6 @@ import { fetchProducts } from "../../features/products/productSlice";
 import LottiHandeler from "../../assets/lottifiles/LottiHandeler";
 import { addToCart } from "../../features/cart/cartSlice";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import Swal from 'sweetalert2'
 import { addToWishlist } from "../../features/cart/wishlistSlice";
 import { FaRegHeart } from "react-icons/fa";
@@ -17,16 +16,15 @@ import { BsCart4 } from "react-icons/bs";
 
 export default function Shop() {
     const [currentPage, setCurrentPage] = useState(1);
-
     const itemsPerPage  = 8;
   
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
    const { items, loading } = useSelector((state) => state.products);
-     const { products, totalCount} = useSelector((state) => state.wishlist);
-   
-     const { user } = useSelector((state) => state.auth);
+   const cartProducts = useSelector((state) => state.cart.products);
+
+   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -64,33 +62,43 @@ const handleAddToCart = (product) => {
       showConfirmButton: false,
     });
   };
-
     
-       const handleAddToWishlist = (product) => {
-        if (!user) {
-          Swal.fire({
-            icon: "warning",
-            title: "Login required",
-            text: "you must login to see cart ",
-            confirmButtonText: "login",
-            showCancelButton: true,
-            }).then((result) => {
-               if (result.isConfirmed) {
-                  navigate("/login");
-                }
-            });
-          return;
-        }
-        dispatch(addToWishlist(product));
-        Swal.fire({
-          icon: "success",
-          title: "addedToWishlist",
-          text: `${product.name} is add successfully`,
-          timer: 500,
-          showConfirmButton: false,
-        });
-      };
-      
+const handleAddToWishlist = (product) => {
+  if (!user) {
+    Swal.fire({
+      icon: "warning",
+      title: "Login required",
+      text: "You must login to access your wishlist",
+      confirmButtonText: "Login",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
+    });
+    return;
+  }
+  const isInCart = cartProducts.some((item) => item.id === product.id);
+  if (isInCart) {
+    Swal.fire({
+      icon: "info",
+      title: "Already in cart",
+      text: "This product is already in your cart",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+    return;
+  }
+  dispatch(addToWishlist(product));
+  Swal.fire({
+    icon: "success",
+    title: "Added to Wishlist",
+    text: `${product.name} was added successfully`,
+    timer: 1000,
+    showConfirmButton: false,
+  });
+};
+  
   return (
 
     <>
@@ -135,10 +143,9 @@ const handleAddToCart = (product) => {
                   </button> 
                 </div>
          </div>
-       ))}
-                
-        </div>
+       ))}         
       </div>
+    </div>
       {/* <Cart/> */}
     </div>
 

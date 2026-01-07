@@ -61,31 +61,43 @@ export default function ProductDetails() {
       });
     };
     
-     const handleAddToWishlist = (product) => {
-      if (!user) {
-        Swal.fire({
-          icon: "warning",
-          title: "Login required",
-          text: "you must login to see cart ",
-          confirmButtonText: "login",
-          showCancelButton: true,
-          }).then((result) => {
-             if (result.isConfirmed) {
-                navigate("/login");
-              }
-          });
-        return;
-      }
-      dispatch(addToWishlist(product));
-      Swal.fire({
-        icon: "success",
-        title: "add",
-        text: `${product.name} is add successfully`,
-        timer: 500,
-        showConfirmButton: false,
-      });
-    };
-  
+  const cartProducts = useSelector((state) => state.cart.products);
+     
+ const handleAddToWishlist = (product) => {
+   if (!user) {
+     Swal.fire({
+       icon: "warning",
+       title: "Login required",
+       text: "You must login to access your wishlist",
+       confirmButtonText: "Login",
+       showCancelButton: true,
+     }).then((result) => {
+       if (result.isConfirmed) {
+         navigate("/login");
+       }
+     });
+     return;
+   }
+   const isInCart = cartProducts.some((item) => item.id === product.id);
+   if (isInCart) {
+     Swal.fire({
+       icon: "info",
+       title: "Already in cart",
+       text: "This product is already in your cart",
+       timer: 1500,
+       showConfirmButton: false,
+     });
+     return;
+   }
+   dispatch(addToWishlist(product));
+   Swal.fire({
+     icon: "success",
+     title: "Added to Wishlist",
+     text: `${product.name} was added successfully`,
+     timer: 1000,
+     showConfirmButton: false,
+   });
+ };
   
 if (!product) {
   return <div className="py-20 text-center">Loading...</div>;
@@ -118,7 +130,7 @@ if (!product) {
         {/* Info */}
         <div className="mx-auto max-w-6xl px-4 py-10">
           <h1 className="text-3xl font-bold">{product.name}</h1>
-          <p className="mt-2 text-2xl">{product.price} EGP</p>
+          <p className="mt-2 text-2xl"> <del className='text-red-500'>{product.price}</del> EGP</p>
           { (product.sale != 0) &&
           <p className="mt-2 text-2xl">{product.price - ((product.price * product.sale)/100 )} EGP</p>
           }

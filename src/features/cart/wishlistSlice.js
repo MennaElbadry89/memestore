@@ -17,13 +17,16 @@ const wishlistSlice = createSlice({
     addToWishlist: (state, action) => {
       const product = action.payload || {};
       console.log('WishlistSlice.addToWishlist received payload:', product);
-
+    //  لو المنتج موجود في الكارت → ما يتضافش
+      if (product.isInCart)  return;
+  
       const id = product.id ?? product._id;
       const price = Number(product.price) || 0;
 
       const existingProduct = state.products.find((p) => p.id === id);
 
-      if (!existingProduct) {      
+      if(existingProduct) return;
+      
         state.products.push({
           id,
           name: product.name || '',
@@ -31,11 +34,11 @@ const wishlistSlice = createSlice({
           cat: product.cat || '',
           Brand: product.brand?.name ||  '',
           price: product.price || '',
-          quantity: product.count || "outOfStok",
+          quantity: product.count || 0,
           colors: product.colors?.map(c => c.color) || [],
         });
-      }
-      state.totalCount += 1;
+
+        state.totalCount += 1;
       
         saveWishlistToLocalStorage(state);
     },

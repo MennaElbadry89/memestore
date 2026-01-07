@@ -1,4 +1,3 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import {  removeFromWishlist, clearWishlist } from "../../features/cart/wishlistSlice";
 import { useState } from 'react'
@@ -71,11 +70,11 @@ const handleRemove = (id) => {
                            <div className="mx-2 my-6 flex items-center justify-between px-5 py-4 shadow-lg md:mx-10">
                             <div className="mx-auto flex items-center justify-center gap-2 max-md:flex-col md:flex-row">
                            <button type="button" onClick={()=>setOpen(!open)}
-                              className="rounded-xl bg-red-600 p-2 font- text-sm text-white hover:bg-red-500">
+                              className="font- rounded-xl bg-red-600 p-2 text-sm text-white hover:bg-red-500">
                               clearWishlist  
                            </button>
                           <button type="button" onClick={()=>navigate('/shop')}
-                              className="rounded-xl bg-gray-600 p-2 font-medium text-sm text-white hover:bg-red-500">
+                              className="rounded-xl bg-gray-600 p-2 text-sm font-medium text-white hover:bg-red-500">
                               shop now 
                            </button>
                            

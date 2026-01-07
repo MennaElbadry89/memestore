@@ -23,7 +23,7 @@ export default function CountrySelect({ countries, value, onChange }) {
 
         <Listbox.Options className="absolute z-10 mt-1 w-full rounded border bg-white">
                      {/* Search */}
-          <input  type="text"
+          <input  type="text" name="country"
             placeholder="Search..." value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full border-b p-2 outline-none" />

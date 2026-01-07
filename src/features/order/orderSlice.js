@@ -17,14 +17,14 @@ console.log(items)
         quantity: p.quantity || 1,
         image: p.image || "",
         cat: p.cat || "",
-        colors: p.colors || [],
+        colors:  Array.isArray(p.colors) ? p.colors : [],
         brand: p.brand || "",
       }));
 
       const order = {
         userId,
         items: cleanedItems,
-        totalPrice: totalPrice || 0,
+        totalPrice: Number(totalPrice) || 0,
         status: "pending",
         createdAt: serverTimestamp(), 
       };
