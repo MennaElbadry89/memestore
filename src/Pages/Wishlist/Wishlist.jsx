@@ -25,7 +25,7 @@ const handleRemove = (id) => {
 };
 
 
-  console.log('Cart component state:', wishlist);
+  console.log('wishlist component state:', wishlist);
   
   return (
     <div className="mx-auto flex w-full flex-col justify-center">

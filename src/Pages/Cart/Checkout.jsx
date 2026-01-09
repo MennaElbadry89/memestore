@@ -44,12 +44,16 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const cleanProducts = products.map((product) => ({
+  ...product,
+  colors: product.colors?.filter(Boolean) || [], // يشيل undefined
+}));
  const handleCheckout = async () => {
     console.log("Checkout clicked");
   try {
     await dispatch(
       createOrder({
-        items: products,
+        items: cleanProducts,
         totalPrice,
         userId: user.uid,
       })
@@ -124,20 +128,27 @@ export default function Checkout() {
             </div>
           </div>
 
-          <button onClick={()=>setOpen(!open)} className="mt-4 w-full rounded-2xl bg-gray-600 p-3 text-white">
+          <button onClick={()=>setOpen(true)} className="mt-4 w-full rounded-2xl bg-gray-600 p-3 text-white">
             Place Order
           </button>
-                             {/* checkout modal */}                            
-          { open &&  <div className="fixed inset-0 flex items-center justify-center bg-black/30">
-             <div className="absolute z-50 flex h-1/4 w-2/3 flex-col items-center justify-center bg-white p-2 md:w-1/3">
-               <p className="md:text-md my-2 text-center text-sm">Are you sure to confirm order?!</p>
-               <div className="flex items-center justify-center gap-1">
-                 <button className="rounded-md bg-gray-500 p-2 text-sm text-white" onClick={()=>setOpen(false)}>Cancel</button>
-                 <button className="rounded-md bg-red-500 p-2 text-sm text-white" onClick={handleCheckout}>checkout</button>
-               </div>
-             </div>
-            </div>}
         </form>
+                             {/* checkout modal */}                                    
+    {open && (
+     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
+      <div  className="z-50 flex h-1/4 w-2/3 flex-col items-center justify-center bg-white p-4 md:w-1/3"
+            onClick={(e) => e.stopPropagation()} >  
+        <p className="md:text-md my-2 text-center text-sm">Are you sure to confirm order?! </p>
+        <div className="flex gap-2">
+          <button type="button" onClick={() => setOpen(false)} 
+            className="rounded-md bg-gray-500 p-2 text-sm text-white"> Cancel</button>
+
+          <button type="button" onClick={handleCheckout}
+            className="rounded-md bg-red-500 p-2 text-sm text-white"> Checkout</button>
+        </div>
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );

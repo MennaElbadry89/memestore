@@ -6,10 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./features/auth/firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { setUser } from './features/auth/authSlice';
 import { listenAuthState } from "./features/auth/authSlice";
-
+import WelcomeModal from "./WelcomeModal.jsx";
 
 import { createBrowserRouter , RouterProvider} from  'react-router-dom'
 const Layout = lazy(()=> import('./Layout/Layout'))
@@ -38,15 +38,18 @@ const Messages = lazy(()=> import('./Pages/Messages/Messages'))
 
 export default function App(){
     const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
- 
-  useEffect(() => {
+    const [showModal, setShowModal] = useState(false);
+
+useEffect(() => {
   const seen = localStorage.getItem("welcomeMessage");
   if (!seen) {
     setShowModal(true);
     localStorage.setItem("welcomeMessage", "true");
   }
 }, []);
+
+
+
 
   // useEffect(() => {
   //   const unsub = onAuthStateChanged(auth, (user) => {
@@ -110,24 +113,11 @@ const router = createBrowserRouter([
   }
 ])
     return  <>
-     {showModal && (
-      <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60">
-        <div className="w-4/5 rounded-xl bg-white p-6 text-center md:w-1/4">
-          <h2 className="mb-3 font-bold text-blue-500 md:text-2xl">welcome frind </h2>
-          <div className="mb-4 flex flex-col items-start text-left text-sm md:text-base">
-           <p>To be able to see and deal with products and other APIs, you need to:-</p>
-           <span>1-  download code in your pc, </span> 
-           <span>2-  npm start (to run db.json server) </span> 
-           <span>3-  npm run dev (to run app) </span> 
-            <br />
-          </div>
-          <button onClick={() => setShowModal(false)}
-            className="animate-pulse rounded bg-gray-600 p-2 text-white" >enjoy</button>
-        </div>
-      </div>
-    )}
+ 
+      <WelcomeModal  open={showModal}
+      onClose={() => setShowModal(false)}/>
 
-     <RouterProvider router={router}/>
+      <RouterProvider router={router}/>
       <ToastContainer position="top-center" />
       <Toaster position="top-center" />;
      </>
